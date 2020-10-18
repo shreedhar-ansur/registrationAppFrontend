@@ -9,11 +9,11 @@ Sample registration form using Node and angular. Application connects to api's e
 
 Checkout the project from git repository
 
-Run npm install -g @angular/cli
+Run `npm install -g @angular/cli` to install angular cli.
 
-Run npm install
+Run `npm install` to install angular project dependencies.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run: `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
