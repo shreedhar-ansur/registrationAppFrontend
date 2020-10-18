@@ -1,3 +1,7 @@
+## Prerequisite
+
+  Node & Npm
+
 ## Development server
 
 Checkout the project from git repository
