@@ -9,6 +9,8 @@ Sample registration form using Node and angular. Application connects to api's e
 
 Checkout the project from git repository
 
+Navigate to directory containing package.json.
+
 Run `npm install -g @angular/cli` to install angular cli.
 
 Run `npm install` to install angular project dependencies.
