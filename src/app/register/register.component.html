@@ -1,0 +1,67 @@
+
+<h1>
+Some useful government service
+</h1>
+<table>
+  <tr cellP="100">
+    <td class="tableLabel">Name</td>
+    <td><input type="text" name="name" [(ngModel)]="user.name"></td>
+    <td>
+      <div *ngIf='errorMessages.get("user.name")'>
+            <span *ngFor='let message of errorMessages.get("user.name")'>
+              {{message}}
+            </span>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="tableLabel">sex</td>
+    <td>
+      <table>
+        <tr>
+          <td><input type="radio" name="gender" value="male" [(ngModel)]="user.gender"/>male</td>
+          <td><input type="radio" name="gender" value="female" [(ngModel)]="user.gender"/>female</td>
+        </tr>
+      </table>
+    </td>
+    <td>
+      <div *ngIf='errorMessages.get("user.gender")'>
+              <span *ngFor='let message of errorMessages.get("user.gender")'>
+                {{message}}
+              </span>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="tableLabel">Age</td>
+    <td><input type="text" id="age" name="age" [(ngModel)]="user.age"></td>
+    <td>
+      <div *ngIf='errorMessages.get("user.age")'>
+              <span *ngFor='let message of errorMessages.get("user.age")'>
+                {{message}}
+              </span>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="tableLabel">Country</td>
+    <td><ng-select [items]="countriesList" bindLabel="name" bindValue="name" [(ngModel)]="user.country"></ng-select></td>
+    <td>
+      <div *ngIf='errorMessages.get("user.country")'>
+              <span *ngFor='let message of errorMessages.get("user.country")'>
+                {{message}}
+              </span>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="submit"><input type="button" (click)="register()" value="Apply"></td>
+  </tr>
+  <tr>
+    <td>
+      <div id="formError" class="formError" *ngIf="formError">
+        {{formErrorMessage}}
+      </div>
+    </td>
+  </tr>
+</table>
