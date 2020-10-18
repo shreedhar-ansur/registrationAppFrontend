@@ -1,3 +1,6 @@
+# Registration UI
+Sample registration form using Node and angular. Application connects to api's exposed at registration API application (https://github.com/shreedhar-ansur/registrationAppBackend.git).
+
 ## Prerequisite
 
   Node & Npm
