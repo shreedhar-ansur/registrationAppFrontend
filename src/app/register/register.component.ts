@@ -28,12 +28,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
   public user: User = new User('', 'male', '', 1);
   public subscription: Subscription;
   public errorSubscription: Subscription;
+  public formErrorSubscription: Subscription;
   public errorMessages: Map<string, Array<string>> = new Map<string, Array<string>>();
   public countriesList: any = [];
   public formError: boolean;
-  public formErrorMessage: string;
+  public formErrorMessage = '';
   public testEmitter = new BehaviorSubject<any>(this.countriesList);
-  public testErrorEmitter = new BehaviorSubject<any>(this.errorMessages);
+  public testErrorEmitter = new BehaviorSubject<Map<string, Array<string>>>(this.errorMessages);
+  public testFormErrorEmitter = new BehaviorSubject<string>(this.formErrorMessage);
   constructor(public http: HttpClient, private router: Router, private route: ActivatedRoute) {
   }
   ngOnInit(): void {
@@ -41,11 +43,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
       countriesList => this.countriesList = countriesList);
     this.errorSubscription = this.testErrorEmitter.asObservable().subscribe(
       errorMessages => this.errorMessages = errorMessages);
+    this.formErrorSubscription = this.testFormErrorEmitter.asObservable().subscribe(
+      formErrorMessages => this.formErrorMessage = formErrorMessages);
     this.populateCountries();
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.errorSubscription.unsubscribe();
+    this.formErrorSubscription.unsubscribe();
   }
   public populateCountries(): void {
     this.getCountries().subscribe((data: any) => {
@@ -54,6 +59,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
         localVar.push({id: countryDetail.numericCode, name: countryDetail.name});
       });
       this.testEmitter.next(localVar);
+    }, (error: HttpErrorResponse): any => {
+      this.errorMessages.set('user.country', ['could not fetch country details.']);
+      this.testErrorEmitter.next(this.errorMessages);
     });
   }
   public getCountries(): Observable<any> {
@@ -79,14 +87,24 @@ export class RegisterComponent implements OnInit, OnDestroy {
       console.log(data);
       this.router.navigate(['success'], { queryParams: { name: data.name}});
     }, (error: HttpErrorResponse): any => {
-      console.log(JSON.parse(JSON.stringify(error.error.error)));
-      const map = new Map<string, string[]>();
-      for (const k of Object.keys(JSON.parse(JSON.stringify(error.error.error)))) {
-        map.set(k, map[k]);
+      if (error.status === 400) {
+        const map = JSON.parse(JSON.stringify(error.error.error));
+        Object.keys(map).map(key => {
+          if ( null == this.errorMessages.get(key)) {
+            this.errorMessages.set(key, []);
+          }
+          this.errorMessages.get(key).push(map[key]);
+        });
+        // this.errorMessages = map;
+        console.log('this.errorMessages');
+        console.log(this.errorMessages);
+        this.testErrorEmitter.next(this.errorMessages);
       }
-      // this.errorMessages = map;
-      this.testErrorEmitter.next(map);
-      this.formErrorMessage = 'Error occurred while registering. Please try again.';
+      console.log('error');
+      console.log(error);
+      this.formError = true;
+      this.formErrorMessage = 'Error occurred while registering.';
+      this.testFormErrorEmitter.next('Error occurred while registering.');
       return throwError('error occurred');
     });
   }

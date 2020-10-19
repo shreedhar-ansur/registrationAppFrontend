@@ -57,11 +57,7 @@ Some useful government service
   <tr>
     <td class="submit"><input type="button" (click)="register()" value="Apply"></td>
   </tr>
-  <tr>
-    <td>
-      <div id="formError" class="formError" *ngIf="formError">
-        {{formErrorMessage}}
-      </div>
-    </td>
-  </tr>
 </table>
+<div id="formError" class="formError" *ngIf="formError">
+  {{formErrorMessage}}
+</div>
