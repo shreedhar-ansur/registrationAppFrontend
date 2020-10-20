@@ -23,6 +23,6 @@ import { RegisterComponent } from './register/register.component';
     AppRoutingModule
   ],
   providers: [],
-  bootstrap: [AppComponent, SuccessComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
